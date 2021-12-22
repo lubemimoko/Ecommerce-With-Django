@@ -1,0 +1,47 @@
+{% extends 'ecom/base.html' %}
+
+{% block body %}
+    {% include 'ecom/carousel.html' %}
+    <!--=================================item gallery======================================= -->
+
+
+    <!--=================================bags-categories======================================= -->
+    {% comment %} {% for category in categories %} {% endcomment %}
+        <div class="item-gallery" id="{{category.name}}">
+            <!-- --------------------------side buttons and title--------------------------------- -->
+        <aside>
+            <h1>{{category.name}}s...</h1>
+            <div class="brands">
+                <button class="btn active" data-filter="all">all</button>
+                {% for ptype in producttypes %}
+                    <button class="btn" data-filter="{{ptype.slug}}">{{ptype.name}} <br>&nbsp;&nbsp;&nbsp; ({{ptype.category.name}})</button>
+                {% endfor %}
+            </div>
+        </aside>
+            <!-- --------------------------side buttons and title end--------------------------------- -->
+
+            <!-- --------------------------bags gallery container--------------------------------- -->
+        
+            <div class="bags-gallery">
+                {% for product in products %}
+                    <span class="bags-unit {{product.productype.slug}}" ><!-- --------------------------bags details and image holder--------------------------------- -->
+                        <img src="{{product.file.url}}" alt="">
+
+                        <div class="info">
+                            details 
+                        </div>
+                        <p>{{product.name}} </p>
+                        <h3 class="item-name" id="{{product.id}}">cross bag</h3> 
+                        <p>${{product.price}}</p>
+                        <div class="button-grid">
+                            <a href=""><button class="details-button">details</button></a>
+                            <button class="add-cart" id="write{{product.id}}">Add To Cart</button>
+                        </div>
+                    </span><!-- --------------------------bags details and image holder end--------------------------------- -->
+                
+                {% endfor %}
+            </div>
+    </div>
+    <!--=================================bags-categories end ======================================= -->
+
+{% endblock body %}

@@ -1,0 +1,30 @@
+{% extends 'ecom/base.html' %}
+
+{% block title%}Home Page{% endblock title %}
+
+{% block body%}
+    
+    <h1 style="margin-top:100px;">Payment History</h1>
+    
+    <table border="0" width="80%">
+        
+        <thead>
+            <th>SN</th>
+            <th>Date</th>
+            <th>Number Of Items</th>
+            <th>Cost Of Items</th>
+            <th>Delivered</th>
+        </thead>
+        <tbody>
+            {% for ca in cart %}
+                <th>{{ forloop.counter }}</th>
+                <th>{{ca.datetime}}</th>
+                <th>{{ca.noOfItems}}</th>
+                <th>{{ca.cartprice}}</th>
+                <th>{{ca.delivered}}</th>
+            {% endfor %}
+        </tbody>
+
+    </table>
+    
+{% endblock body %}

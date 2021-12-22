@@ -1,0 +1,133 @@
+{% extends 'ecom/base.html' %}
+    {% load static %}
+    {% block style %}
+        <link rel="stylesheet" href="{% static 'ecom/css/cart.css' %}"><!-- css link-->
+        >
+    {% endblock style %}
+  
+  
+  {% block body %}
+  
+  <div class="wrap">
+
+  <header class="cart-header cf">
+    <strong>Items in Your Cart</strong>
+    <span class="btn">Checkout</span>
+  </header>
+    <div class="cart-table">
+    <ul id="cartsession">
+
+<!-- begin simple product -->
+      <li class="item">
+        <div class="item-main cf">
+          <div class="item-block ib-info cf">
+            <img class="product-img" />
+            <div class="ib-info-meta">
+              <span class="title1"></span>
+              <span class="itemno"></span>
+            </div>
+          </div>
+          <div class="item-block ib-qty">
+            <input type="text" value="" class="qty" />
+            <span class="price"><span> </span>  </span>
+          </div>
+          <div class="item-block ib-total-price">
+            <span class="tp-price"> </span>
+            <span class="tp-remove"><i class="i-cancel-circle"></i></span>
+          </div>         
+        </div>
+        <div class="item-foot cf">
+          <!-- <div class="if-message"><p>Space Reserved for item/promo related messaging</p></div> -->
+          <div class="if-left"><span class="if-status">In Stock</span></div>
+          <div class="if-right"><!-- <span class="blue-link">Subscription Options</span> | --><span class="blue-link">Add to Wishlist</span></div>
+        </div>
+      </li>
+<!-- end simple product -->
+    </ul>
+  </div>
+  <div class="cart-footer cf">
+      {% if cart %}
+        
+        {% if delivery %}
+          <span class="btn" id="paystack">Pay With Paystack</span> 
+        {% endif %}
+        <span class="btn"><a href="{% url 'checkout' id=cart.id %}"> Delivery Point</a></span>
+      {% else %}
+        <span class="btn"><i class="i-angle-left"></i>Continue Shopping</span>    
+      {% endif %}
+      <span class="cont-shopping"><i class="i-angle-left"></i>Shopping Cart</span>   
+</div>
+</div>
+
+<script>
+  var cartid = {{cart.id}}
+ 
+</script>
+    {% if  delivery %}
+      <script>
+          
+          let amount = {{cart.cartprice}}
+          let total = 0
+              
+        if(amount >=2500){
+          total = Math.ceil((amount+100)/(1-0.015))
+        }else{
+          total = Math.ceil((amount)/(1-0.015))
+        }
+        
+
+          document.getElementById("paystack").addEventListener("click", payWithPaystack)
+          function payWithPaystack() {
+         
+          let email = "{{delivery.email}}"
+          
+
+          let handler = PaystackPop.setup({
+              key: 'xxxx', // Replace with your public key
+              email: email,
+              amount:  parseFloat(total) * 100,
+              ref: ''+Math.floor((Math.random() * 1000000000) + 1), // generates a pseudo-unique reference. Please replace with a reference you generated. Or remove the line entirely so our API will generate one for you
+              // label: "Optional string that replaces customer email"
+              onClose: function(){
+                alert('Window closed.');
+              },
+              callback: function(response){
+                
+                
+              let message = 'Verifying Payment With Reference: ' + response.reference;
+              alert(message);
+
+             
+                let formData = JSON.stringify({"reference":response.reference, "cartid":cartid }); //Array 
+                let csrftoken = $("input[name='csrfmiddlewaretoken']")[0].defaultValue
+                let headers={
+                  'Content-Type':'application/json',
+                  'X-CSRFToken':csrftoken,
+                }
+                
+                $.ajax({
+                    url : '/payment/', // Url of backend (can be python, php, etc..)
+                    type: "POST", // data type (can be get, post, put, delete)
+                    dataType:'json',
+                    data : formData, // data in json format
+                    headers:headers, 
+                    success: function(res) {
+                      console.log(res);
+                      alert(res.message)
+                    },
+                    error: function (res) {
+                    console.log(res);
+                    }
+                });
+       
+              }
+          });
+          handler.openIframe();
+          }
+          
+
+      </script>
+    {% endif %}
+    <script src="https://js.paystack.co/v1/inline.js"></script>
+    
+{% endblock body %}

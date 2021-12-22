@@ -1,0 +1,60 @@
+{% extends 'ecom/base.html' %}
+    {% load static %}
+    {% block style %}
+        <link rel="stylesheet" href="{% static 'ecom/css/contact.css' %}"><!-- css link-->
+        >
+    {% endblock style %}
+  
+  
+  {% block body %}
+    <main class="container">
+        <h2><span>Acme </span> web design</h2>
+        <!-- Box -->
+        <div class="box">
+            <!-- info container -->
+            <section class="info">
+                <h4>Acme web design</h4>
+                <p>
+                    <i class="fas fa-road"></i>
+                     <small>44 something st</small>
+                </p>
+                <p>
+                    <i class="fas fa-phone-alt"></i>
+                    <small>(666) 666-6666</small>
+                </p>
+                <p>
+                    <i class="fas fa-envelope"></i>
+                    <small>something@gmail.com</small>
+                </p>
+            </section>
+            <!-- form container -->
+            <h3>Email Us</h3>
+            <form method="post" action="{% url 'sendmail' %}">
+                {% csrf_token %}
+                <!-- Email -->
+                <div class="email">
+                    <label for="email">Email</label>
+                    <br>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                <!-- Title -->
+                <div class="tele">
+                    <label for="title">Title</label>
+                    <br>
+                    <input type="text" id="title" name="title" required>
+                </div>
+                <!-- Message -->
+                <div class="message">
+                    <label for="message">Message</label>
+                    <br>
+                    <textarea id="message" name="message" required></textarea>
+                </div>
+                <!-- Submit -->
+                <div class="submit">
+                    <input type="submit" value="SUBMIT">
+                </div>
+            </form>
+        </div>
+    </main>
+
+{% endblock body %}

@@ -1,0 +1,34 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" co`ntent="width=device-width, initial-scale=1.0">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/material-design-iconic-font/2.2.0/css/material-design-iconic-font.css" />
+    <link rel="stylesheet" href="{% static 'ecom/css/shop.css' %}"><!-- css link-->
+    <link rel="stylesheet" href="{% static 'ecom/fontawesome/css/all.css' %}"><!-- css link-->
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
+    
+    <title>Shop</title>
+    {% block style %}{% endblock style %}
+</head>       
+<body>
+    <div style="display:none;">{% csrf_token %}</div>
+    <div style="display:none;" id="url">{% url 'cart' %}</div>
+    {% include 'ecom/header.html' %}
+    
+    {% block body %}{% endblock body %}
+
+    {% include 'ecom/footer.html' %}
+
+<script>var userid = {{request.user.id}};console.log(userid)</script>
+    <script src="{% static 'ecom/js/axios.js' %}"></script>
+    <script src="{% static 'ecom/js/cart.js' %}"></script>
+    <script src="{% static 'ecom/js/cart2.js' %}"></script>
+    <script src="{% static 'ecom/js/shop.js' %}"></script>
+</body>
+</html>

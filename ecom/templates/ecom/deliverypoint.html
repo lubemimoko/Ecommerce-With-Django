@@ -1,0 +1,21 @@
+{% extends 'ecom/base.html' %}
+
+{% block title%}Home Page{% endblock title %}
+
+{% block body%}
+    <h1>Delivery Point</h1>
+        
+    <form style="margin-top:100px;" action="{% url 'checkout' id=id %}" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        {% comment %} {% for f  in form  %}
+        <div>
+            {{f}}
+            {% for msg in f.errors  %}
+                <p>{{msg}} </p>
+            {% endfor %}         </div>
+
+        {% endfor %}    {% endcomment %}
+        {{form.as_p}}
+        <input type="submit"> || <a href="{% url 'displaycart'%}"  class="btn btn-info">Proceed to Pay</a> 
+    </form>
+{% endblock body %}
